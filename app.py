@@ -158,40 +158,30 @@ def otimizar():
     data = request.json
     pontos = data.get('pontos', [])
     
-    if not pontos:
-        return jsonify({'error': 'Nenhum ponto recebido'}), 400
+    pontos_validos = [p for p in pontos if p.get('lat') and p.get('lng')]
     
-    # Separar pontos com e sem coordenadas
-    pontos_com_coords = [p for p in pontos if p.get('lat') and p.get('lng')]
-    pontos_sem_coords = [p for p in pontos if not p.get('lat') or not p.get('lng')]
+    if not pontos_validos:
+        return jsonify({'error': 'Nenhum ponto com coordenadas válidas'}), 400
     
-    # Otimizar apenas os que têm coordenadas
-    if pontos_com_coords:
-        rota_otimizada = nearest_neighbor(pontos_com_coords)
-    else:
-        rota_otimizada = []
+    rota_otimizada = nearest_neighbor(pontos_validos)
     
-    # Adicionar os sem coordenadas no final da rota
-    rota_completa = rota_otimizada + pontos_sem_coords
-    
-    # Calcular distância apenas dos que têm coordenadas
     distancia_total = 0
     for i in range(len(rota_otimizada) - 1):
         p1, p2 = rota_otimizada[i], rota_otimizada[i + 1]
         distancia_total += haversine(p1['lat'], p1['lng'], p2['lat'], p2['lng'])
     
-    bairros = set(p.get('bairro', '') for p in rota_completa if p.get('bairro'))
+    bairros = set(p.get('bairro', '') for p in rota_otimizada if p.get('bairro'))
     
     resultado = []
-    for idx, ponto in enumerate(rota_completa):
+    for idx, ponto in enumerate(rota_otimizada):
         resultado.append({
             'seq': idx + 1,
             'id': ponto['id'],
             'numero_os': ponto['numero_os'],
             'endereco': ponto['endereco'],
             'bairro': ponto['bairro'],
-            'lat': ponto.get('lat'),
-            'lng': ponto.get('lng')
+            'lat': ponto['lat'],
+            'lng': ponto['lng']
         })
     
     return jsonify({
