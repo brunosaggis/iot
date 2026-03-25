@@ -37,6 +37,7 @@
         .lang-btn.active { opacity: 1; border-color: var(--azul-institucional); }
         .lang-btn svg { width: 100%; height: 100%; }
         
+        /* Tabs */
         .tabs-container { background: var(--branco); border-bottom: 1px solid var(--cinza-linha); padding: 0 40px; }
         .tabs { display: flex; gap: 0; }
         .tab { padding: 16px 24px; font-size: 14px; font-weight: 500; color: var(--cinza-texto); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
@@ -74,16 +75,6 @@
         .progress-fill { height: 100%; background: var(--ciano-tecnico); width: 0%; transition: width 0.3s ease; border-radius: 3px; }
         .progress-text { display: flex; justify-content: space-between; font-size: 13px; color: var(--cinza-texto); }
         
-        .map-card { background: var(--branco); border-radius: 12px; box-shadow: 0 1px 3px rgba(18, 48, 71, 0.06); margin-bottom: 24px; overflow: hidden; }
-        .map-header { padding: 16px 24px; border-bottom: 1px solid var(--cinza-linha); display: flex; justify-content: space-between; align-items: center; }
-        .map-header h4 { font-size: 14px; font-weight: 600; color: var(--azul-petroleo); display: flex; align-items: center; gap: 8px; }
-        .map-legend { display: flex; gap: 16px; font-size: 12px; color: var(--cinza-texto); }
-        .map-legend span { display: flex; align-items: center; gap: 4px; }
-        .map-legend .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .map-legend .dot.green { background: var(--verde-status); }
-        .map-legend .dot.blue { background: var(--azul-institucional); }
-        .map-container { height: 400px; width: 100%; }
-        
         .results-card { background: var(--branco); border-radius: 12px; box-shadow: 0 1px 3px rgba(18, 48, 71, 0.06); overflow: hidden; }
         .results-header { padding: 20px 24px; border-bottom: 1px solid var(--cinza-linha); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
         .results-title { display: flex; align-items: center; gap: 10px; }
@@ -109,7 +100,7 @@
         .selection-bar.invalid { background: rgba(217, 164, 65, 0.1); }
         .selection-bar.invalid .selection-count span { color: var(--ambar-alerta); }
         
-        .table-container { max-height: 400px; overflow-y: auto; }
+        .table-container { max-height: 500px; overflow-y: auto; }
         .table { width: 100%; border-collapse: collapse; }
         .table th { background: var(--azul-petroleo); color: var(--branco); padding: 14px 16px; text-align: left; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; position: sticky; top: 0; z-index: 10; }
         .table th:first-child { width: 50px; text-align: center; }
@@ -126,6 +117,7 @@
         .os-number { font-weight: 600; }
         .bairro-tag { display: inline-block; padding: 4px 10px; background: var(--cinza-fundo); border-radius: 4px; font-size: 12px; color: var(--cinza-texto); }
         
+        /* Dashboard Charts */
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
         .chart-card { background: var(--branco); border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(18, 48, 71, 0.06); }
         .chart-card h4 { font-size: 14px; font-weight: 600; color: var(--azul-petroleo); margin-bottom: 16px; }
@@ -145,7 +137,6 @@
             .results-header { flex-direction: column; align-items: flex-start; }
             .selection-bar { flex-direction: column; align-items: flex-start; }
             .tabs { overflow-x: auto; }
-            .map-container { height: 300px; }
         }
     </style>
 </head>
@@ -173,6 +164,7 @@
         </div>
     </header>
     
+    <!-- Tabs -->
     <div class="tabs-container">
         <div class="tabs">
             <div class="tab active" onclick="switchTab('routes')" data-tab="routes">
@@ -185,6 +177,7 @@
     </div>
     
     <main class="main-content">
+        <!-- TAB 1: Routes -->
         <div class="tab-content active" id="tabRoutes">
             <div class="stats-grid">
                 <div class="stat-card">
@@ -228,17 +221,6 @@
                 <div class="progress-text"><span id="progressLabel">Lendo arquivo...</span><span id="progressPercent">0%</span></div>
             </div>
             
-            <div class="map-card hidden" id="mapSection">
-                <div class="map-header">
-                    <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> <span data-i18n="mapTitle">Mapa de Pontos</span></h4>
-                    <div class="map-legend">
-                        <span><span class="dot green"></span> <span data-i18n="startPoint">Ponto inicial</span></span>
-                        <span><span class="dot blue"></span> <span data-i18n="otherPoints">Demais pontos</span></span>
-                    </div>
-                </div>
-                <div class="map-container" id="map"></div>
-            </div>
-            
             <div class="results-card hidden" id="resultsSection">
                 <div class="results-header">
                     <div class="results-title">
@@ -270,7 +252,9 @@
             </div>
         </div>
         
+        <!-- TAB 2: Hotspots -->
         <div class="tab-content" id="tabHotspots">
+            <!-- Upload Section -->
             <div class="upload-card" id="hotspotsUploadSection">
                 <div class="upload-area" id="hotspotsUploadArea">
                     <input type="file" id="hotspotsFileInput" accept=".txt">
@@ -286,6 +270,7 @@
                 </div>
             </div>
             
+            <!-- Dashboard Section -->
             <div class="hidden" id="hotspotsDashboard">
                 <div class="period-badge" id="hotspotsPeriod"></div>
                 
@@ -347,9 +332,10 @@
     
     <footer class="footer"><p>2025 — Bruno Silva de Jesus</p></footer>
     
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN5jhZqcd8qs1cCdXjTlJS0wabjUmeTjA&callback=initMapCallback" async defer></script>
-    
     <script>
+        // =====================
+        // TRANSLATIONS
+        // =====================
         const translations = {
             pt: {
                 title: "Inteligência Operacional Territorial", subtitle: "Territorial Intelligence for Municipal Operations",
@@ -364,7 +350,7 @@
                 order: "Ordem", osNumber: "Nº OS", address: "Endereço", neighborhood: "Bairro", total: "Total", orders: "ordens",
                 errorProcessing: "Erro ao processar arquivo", errorOptimizing: "Erro ao otimizar", selectBetween: "Selecione entre 2 e 10 pontos",
                 pdfTitle: "Inteligência Operacional Territorial", pdfSubtitle: "Rota Otimizada",
-                mapTitle: "Mapa de Pontos", startPoint: "Ponto inicial", otherPoints: "Demais pontos",
+                // Hotspots
                 hotspotsUploadTitle: "Importar ranking de pontos críticos", hotspotsUploadDesc: "Arraste seu arquivo TXT com o ranking de ruas, ou clique para selecionar",
                 hotspotsUploadHint: "Formato esperado: Ranking de ruas SEURB com total de atendimentos",
                 totalServices: "Total de Atendimentos", streetsAnalyzed: "Ruas Analisadas", neighborhoodsAffected: "Bairros Afetados", avgPerStreet: "Média por Rua",
@@ -384,7 +370,7 @@
                 order: "Order", osNumber: "OS #", address: "Address", neighborhood: "Neighborhood", total: "Total", orders: "orders",
                 errorProcessing: "Error processing file", errorOptimizing: "Error optimizing", selectBetween: "Select between 2 and 10 points",
                 pdfTitle: "Territorial Operational Intelligence", pdfSubtitle: "Optimized Route",
-                mapTitle: "Points Map", startPoint: "Starting point", otherPoints: "Other points",
+                // Hotspots
                 hotspotsUploadTitle: "Import critical points ranking", hotspotsUploadDesc: "Drag your TXT file with the street ranking, or click to select",
                 hotspotsUploadHint: "Expected format: SEURB street ranking with total services",
                 totalServices: "Total Services", streetsAnalyzed: "Streets Analyzed", neighborhoodsAffected: "Neighborhoods Affected", avgPerStreet: "Avg per Street",
@@ -393,49 +379,29 @@
             }
         };
         
-        let currentLang = 'pt', chartTop10 = null, chartBairros = null, hotspotsData = [], map = null, markers = [], mapInitialized = false;
+        let currentLang = 'pt';
+        let chartTop10 = null;
+        let chartBairros = null;
+        let hotspotsData = [];
         
         function setLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('iot-lang', lang);
             document.getElementById('btnPT').classList.toggle('active', lang === 'pt');
             document.getElementById('btnEN').classList.toggle('active', lang === 'en');
-            document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (translations[lang][key]) el.textContent = translations[lang][key]; });
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) el.textContent = translations[lang][key];
+            });
             document.title = translations[lang].title;
             setCurrentDate();
             if (hotspotsData.length > 0) updateHotspotsCharts();
         }
         function t(key) { return translations[currentLang][key] || key; }
         
-        function initMapCallback() { mapInitialized = true; }
-        
-        function initMap(pontos) {
-            if (!mapInitialized) { setTimeout(() => initMap(pontos), 100); return; }
-            document.getElementById('mapSection').classList.remove('hidden');
-            const validPoints = pontos.filter(p => p.lat && p.lng);
-            if (validPoints.length === 0) return;
-            const centerLat = validPoints.reduce((sum, p) => sum + p.lat, 0) / validPoints.length;
-            const centerLng = validPoints.reduce((sum, p) => sum + p.lng, 0) / validPoints.length;
-            if (!map) {
-                map = new google.maps.Map(document.getElementById('map'), { center: { lat: centerLat, lng: centerLng }, zoom: 13, styles: [{ featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] }] });
-            } else { map.setCenter({ lat: centerLat, lng: centerLng }); }
-            markers.forEach(m => m.setMap(null)); markers = [];
-            validPoints.forEach((ponto, idx) => {
-                const isFirst = idx === 0;
-                const marker = new google.maps.Marker({
-                    position: { lat: ponto.lat, lng: ponto.lng }, map: map, title: `${ponto.numero_os} - ${ponto.endereco}`,
-                    label: { text: String(idx + 1), color: '#FFFFFF', fontSize: '11px', fontWeight: 'bold' },
-                    icon: { path: google.maps.SymbolPath.CIRCLE, scale: 14, fillColor: isFirst ? '#2E9E64' : '#1E5A8A', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 }
-                });
-                const infoWindow = new google.maps.InfoWindow({ content: `<div style="font-family: Inter, sans-serif; padding: 8px;"><strong style="color: #123047;">OS ${ponto.numero_os}</strong><br><span style="color: #5E6B78; font-size: 12px;">${ponto.endereco}</span><br><span style="color: #5E6B78; font-size: 12px;">${ponto.bairro}</span></div>` });
-                marker.addListener('click', () => { infoWindow.open(map, marker); });
-                markers.push(marker);
-            });
-            if (validPoints.length > 1) { const bounds = new google.maps.LatLngBounds(); validPoints.forEach(p => bounds.extend({ lat: p.lat, lng: p.lng })); map.fitBounds(bounds); }
-        }
-        
-        function clearMap() { markers.forEach(m => m.setMap(null)); markers = []; document.getElementById('mapSection').classList.add('hidden'); }
-        
+        // =====================
+        // TABS
+        // =====================
         function switchTab(tabName) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -443,16 +409,22 @@
             document.getElementById(tabName === 'routes' ? 'tabRoutes' : 'tabHotspots').classList.add('active');
         }
         
+        // =====================
+        // ROUTES TAB
+        // =====================
         let rotaAtual = [], registrosOriginais = [];
         
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('iot-lang') || 'pt';
             if (savedLang !== 'pt') setLanguage(savedLang);
-            setCurrentDate(); setupUpload(); setupHotspotsUpload();
+            setCurrentDate();
+            setupUpload();
+            setupHotspotsUpload();
         });
         
         function setCurrentDate() {
-            const now = new Date(), locale = currentLang === 'pt' ? 'pt-BR' : 'en-US';
+            const now = new Date();
+            const locale = currentLang === 'pt' ? 'pt-BR' : 'en-US';
             document.getElementById('currentDate').textContent = now.toLocaleDateString(locale, { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
         }
         
@@ -469,7 +441,6 @@
             document.getElementById('uploadSection').classList.add('hidden');
             document.getElementById('progressSection').classList.remove('hidden');
             document.getElementById('resultsSection').classList.add('hidden');
-            document.getElementById('mapSection').classList.add('hidden');
             updateProgress(0, t('readingFile'));
             try {
                 const formData = new FormData(); formData.append('file', file);
@@ -524,7 +495,6 @@
             document.getElementById('statDistancia').textContent = data.stats.distancia;
             document.getElementById('rotaTable').innerHTML = data.rota.map((item, idx) => `<tr data-id="${item.id}"><td class="checkbox-cell"><input type="checkbox" class="row-checkbox" value="${idx}" onchange="atualizarSelecao()"></td><td><span class="seq-badge ${idx === 0 ? 'first' : ''}">${item.seq}</span></td><td class="os-number">${item.numero_os}</td><td>${item.endereco}</td><td><span class="bairro-tag">${item.bairro}</span></td></tr>`).join('');
             atualizarSelecao();
-            initMap(data.rota);
         }
         
         function atualizarSelecao() {
@@ -554,7 +524,9 @@
             if (!rotaAtual.length) return;
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-            const pageWidth = pdf.internal.pageSize.getWidth(), margin = 15, locale = currentLang === 'pt' ? 'pt-BR' : 'en-US', today = new Date().toLocaleDateString(locale);
+            const pageWidth = pdf.internal.pageSize.getWidth(), margin = 15;
+            const locale = currentLang === 'pt' ? 'pt-BR' : 'en-US';
+            const today = new Date().toLocaleDateString(locale);
             pdf.setFontSize(18); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(18, 48, 71);
             pdf.text(t('pdfTitle'), pageWidth / 2, 20, { align: 'center' });
             pdf.setFontSize(10); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(94, 107, 120);
@@ -584,9 +556,11 @@
             document.getElementById('statTotal').textContent = '0';
             document.getElementById('statBairros').textContent = '0';
             document.getElementById('statDistancia').textContent = '0';
-            clearMap();
         }
         
+        // =====================
+        // HOTSPOTS TAB
+        // =====================
         function setupHotspotsUpload() {
             const uploadArea = document.getElementById('hotspotsUploadArea'), fileInput = document.getElementById('hotspotsFileInput');
             uploadArea.addEventListener('click', () => fileInput.click());
@@ -596,18 +570,50 @@
             fileInput.addEventListener('change', (e) => { if (e.target.files[0]) processarHotspotsFile(e.target.files[0]); });
         }
         
-        function processarHotspotsFile(file) { const reader = new FileReader(); reader.onload = (e) => { parseHotspotsData(e.target.result); }; reader.readAsText(file, 'UTF-8'); }
+        function processarHotspotsFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+                parseHotspotsData(content);
+            };
+            reader.readAsText(file, 'UTF-8');
+        }
         
         function parseHotspotsData(content) {
-            const lines = content.split('\n'); let period = ''; hotspotsData = [];
-            for (const line of lines) { if (line.includes('SEURB') && line.includes('—')) { const match = line.match(/\(([^)]+)\)/); if (match) period = match[1]; break; } }
+            const lines = content.split('\n');
+            let period = '';
+            hotspotsData = [];
+            
+            // Extract period from header
+            for (const line of lines) {
+                if (line.includes('SEURB') && line.includes('—')) {
+                    const match = line.match(/\(([^)]+)\)/);
+                    if (match) period = match[1];
+                    break;
+                }
+            }
+            
+            // Parse street data
             let currentStreet = null;
             for (const line of lines) {
                 const rankMatch = line.match(/^(\d+)\.\s+(.+?)\s+-\s+(.+)$/);
-                if (rankMatch) { currentStreet = { rank: parseInt(rankMatch[1]), street: rankMatch[2].trim(), neighborhood: rankMatch[3].trim(), total: 0 }; }
+                if (rankMatch) {
+                    currentStreet = {
+                        rank: parseInt(rankMatch[1]),
+                        street: rankMatch[2].trim(),
+                        neighborhood: rankMatch[3].trim(),
+                        total: 0
+                    };
+                }
+                
                 const totalMatch = line.match(/Total de atendimentos:\s*(\d+)/);
-                if (totalMatch && currentStreet) { currentStreet.total = parseInt(totalMatch[1]); hotspotsData.push(currentStreet); currentStreet = null; }
+                if (totalMatch && currentStreet) {
+                    currentStreet.total = parseInt(totalMatch[1]);
+                    hotspotsData.push(currentStreet);
+                    currentStreet = null;
+                }
             }
+            
             if (hotspotsData.length > 0) {
                 document.getElementById('hotspotsUploadSection').classList.add('hidden');
                 document.getElementById('hotspotsDashboard').classList.remove('hidden');
@@ -621,37 +627,102 @@
             const ruasCount = hotspotsData.length;
             const bairrosSet = new Set(hotspotsData.map(r => r.neighborhood.split(' / ')[0]));
             const media = (totalAtendimentos / ruasCount).toFixed(1);
+            
             document.getElementById('hotspotsTotalAtendimentos').textContent = totalAtendimentos.toLocaleString();
             document.getElementById('hotspotsRuasCount').textContent = ruasCount;
             document.getElementById('hotspotsBairrosCount').textContent = bairrosSet.size;
             document.getElementById('hotspotsMedia').textContent = media;
-            document.getElementById('hotspotsTable').innerHTML = hotspotsData.map(item => `<tr><td style="text-align: center;"><span class="seq-badge ${item.rank <= 3 ? 'critical' : ''}">${item.rank}</span></td><td class="os-number">${item.street}</td><td><span class="bairro-tag">${item.neighborhood}</span></td><td style="text-align: center; font-weight: 700; color: ${item.rank <= 10 ? 'var(--vermelho-discreto)' : 'var(--azul-petroleo)'}">${item.total}</td></tr>`).join('');
+            
+            // Render table
+            document.getElementById('hotspotsTable').innerHTML = hotspotsData.map(item => `
+                <tr>
+                    <td style="text-align: center;"><span class="seq-badge ${item.rank <= 3 ? 'critical' : ''}">${item.rank}</span></td>
+                    <td class="os-number">${item.street}</td>
+                    <td><span class="bairro-tag">${item.neighborhood}</span></td>
+                    <td style="text-align: center; font-weight: 700; color: ${item.rank <= 10 ? 'var(--vermelho-discreto)' : 'var(--azul-petroleo)'}">${item.total}</td>
+                </tr>
+            `).join('');
+            
             updateHotspotsCharts();
         }
         
         function updateHotspotsCharts() {
+            // Top 10 Chart
             const top10 = hotspotsData.slice(0, 10);
             const ctx1 = document.getElementById('chartTop10').getContext('2d');
+            
             if (chartTop10) chartTop10.destroy();
-            chartTop10 = new Chart(ctx1, { type: 'bar', data: { labels: top10.map(r => r.street.length > 20 ? r.street.substring(0, 20) + '...' : r.street), datasets: [{ label: t('services'), data: top10.map(r => r.total), backgroundColor: top10.map((_, i) => i < 3 ? '#C53030' : '#1E5A8A'), borderRadius: 4 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } } });
-            const bairrosMap = {}; hotspotsData.forEach(r => { const bairro = r.neighborhood.split(' / ')[0]; bairrosMap[bairro] = (bairrosMap[bairro] || 0) + r.total; });
+            chartTop10 = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: top10.map(r => r.street.length > 20 ? r.street.substring(0, 20) + '...' : r.street),
+                    datasets: [{
+                        label: t('services'),
+                        data: top10.map(r => r.total),
+                        backgroundColor: top10.map((_, i) => i < 3 ? '#C53030' : '#1E5A8A'),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true } }
+                }
+            });
+            
+            // Bairros Chart
+            const bairrosMap = {};
+            hotspotsData.forEach(r => {
+                const bairro = r.neighborhood.split(' / ')[0];
+                bairrosMap[bairro] = (bairrosMap[bairro] || 0) + r.total;
+            });
             const bairrosSorted = Object.entries(bairrosMap).sort((a, b) => b[1] - a[1]).slice(0, 8);
+            
             const ctx2 = document.getElementById('chartBairros').getContext('2d');
             if (chartBairros) chartBairros.destroy();
-            chartBairros = new Chart(ctx2, { type: 'doughnut', data: { labels: bairrosSorted.map(b => b[0]), datasets: [{ data: bairrosSorted.map(b => b[1]), backgroundColor: ['#C53030', '#1E5A8A', '#19A7B8', '#2E9E64', '#D9A441', '#5E6B78', '#123047', '#D8E0E8'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
+            chartBairros = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: bairrosSorted.map(b => b[0]),
+                    datasets: [{
+                        data: bairrosSorted.map(b => b[1]),
+                        backgroundColor: ['#C53030', '#1E5A8A', '#19A7B8', '#2E9E64', '#D9A441', '#5E6B78', '#123047', '#D8E0E8']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right' } }
+                }
+            });
         }
         
         function exportarHotspotsPDF() {
             if (!hotspotsData.length) return;
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-            const pageWidth = pdf.internal.pageSize.getWidth(), margin = 15, locale = currentLang === 'pt' ? 'pt-BR' : 'en-US', today = new Date().toLocaleDateString(locale);
+            const pageWidth = pdf.internal.pageSize.getWidth(), margin = 15;
+            const locale = currentLang === 'pt' ? 'pt-BR' : 'en-US';
+            const today = new Date().toLocaleDateString(locale);
+            
             pdf.setFontSize(18); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(18, 48, 71);
             pdf.text(currentLang === 'pt' ? 'Ranking de Pontos Críticos' : 'Critical Points Ranking', pageWidth / 2, 20, { align: 'center' });
             pdf.setFontSize(10); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(94, 107, 120);
             pdf.text(document.getElementById('hotspotsPeriod').textContent.replace('📅 ', ''), pageWidth / 2, 28, { align: 'center' });
+            
             const tableData = hotspotsData.slice(0, 50).map(item => [item.rank.toString(), item.street, item.neighborhood, item.total.toString()]);
-            pdf.autoTable({ head: [[t('ranking'), t('street'), t('neighborhood'), t('services')]], body: tableData, startY: 38, margin: { left: margin, right: margin }, styles: { fontSize: 8, cellPadding: 3, textColor: [18, 48, 71] }, headStyles: { fillColor: [197, 48, 48], textColor: 255, fontStyle: 'bold' }, alternateRowStyles: { fillColor: [244, 247, 250] } });
+            pdf.autoTable({
+                head: [[t('ranking'), t('street'), t('neighborhood'), t('services')]],
+                body: tableData,
+                startY: 38,
+                margin: { left: margin, right: margin },
+                styles: { fontSize: 8, cellPadding: 3, textColor: [18, 48, 71] },
+                headStyles: { fillColor: [197, 48, 48], textColor: 255, fontStyle: 'bold' },
+                alternateRowStyles: { fillColor: [244, 247, 250] }
+            });
+            
             pdf.save(`Hotspots_${today.replace(/\//g, '-')}.pdf`);
         }
         
