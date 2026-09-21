@@ -15,7 +15,7 @@ import uuid
 app = Flask(__name__, static_folder='static')
 CORS(app)
 
-API_KEY = "AIzaSyCN5jhZqcd8qs1cCdXjTlJS0wabjUmeTjA"
+API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "")
 geocode_cache = {}
 
 @app.route('/')
